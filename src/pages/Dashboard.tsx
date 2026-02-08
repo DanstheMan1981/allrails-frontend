@@ -148,10 +148,10 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Guided add form */}
+          {/* Guided add form — ALWAYS uses icon grid + guided panel */}
           {showAdd && (() => {
-            const guideCfg = PAYMENT_TYPES[addType];
-            const guide = guideCfg?.setup;
+            const guideCfg = getPaymentConfig(addType);
+            const guide = PAYMENT_TYPES[addType]?.setup;
             return (
               <form onSubmit={handleAdd} className="bg-navy/50 rounded-xl p-4 mb-4 space-y-4 border border-navy-border">
                 {/* Step 1: Choose type */}
@@ -162,7 +162,7 @@ export default function Dashboard() {
                       const c = getPaymentConfig(o.value);
                       const selected = addType === o.value;
                       return (
-                        <button key={o.value} type="button" onClick={() => setAddType(o.value)}
+                        <button key={o.value} type="button" onClick={() => { setAddType(o.value); setAddHandle(''); }}
                           className={`flex flex-col items-center gap-1 p-2.5 rounded-lg border transition text-xs font-medium ${selected ? 'border-emerald bg-emerald/10 text-white' : 'border-navy-border bg-navy/30 text-text-secondary hover:border-text-dim'}`}>
                           <span className="text-lg" style={selected ? { filter: 'drop-shadow(0 0 4px ' + c.color + ')' } : {}}>{c.icon}</span>
                           <span className="truncate w-full text-center">{c.label}</span>
@@ -172,38 +172,37 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {/* Step 2: Guided setup */}
-                {guide && (
-                  <div className="rounded-lg border border-navy-border bg-navy/30 p-4 space-y-3">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{guideCfg.icon}</span>
-                      <span className="font-semibold text-sm">{guideCfg.label} Setup</span>
-                    </div>
+                {/* Step 2: Guided setup — always shown */}
+                <div className="rounded-lg border border-navy-border bg-navy/30 p-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{guideCfg.icon}</span>
+                    <span className="font-semibold text-sm">{guideCfg.label} Setup</span>
+                  </div>
 
-                    <p className="text-sm text-text-secondary">{guide.helpText}</p>
+                  {guide && <p className="text-sm text-text-secondary">{guide.helpText}</p>}
 
-                    <div>
-                      <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
-                      <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
-                        className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
-                        placeholder={guide.placeholder} />
-                    </div>
+                  <div>
+                    <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
+                    <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
+                      className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
+                      placeholder={guide?.placeholder || '@username, $cashtag, email, or address'} />
+                  </div>
 
-                    <div>
-                      <label className="text-xs text-text-secondary mb-1 block">Label (optional)</label>
-                      <input value={addLabel} onChange={e => setAddLabel(e.target.value)}
-                        className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
-                        placeholder={`My ${guideCfg.label}`} />
-                    </div>
+                  <div>
+                    <label className="text-xs text-text-secondary mb-1 block">Label (optional)</label>
+                    <input value={addLabel} onChange={e => setAddLabel(e.target.value)}
+                      className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
+                      placeholder={`My ${guideCfg.label}`} />
+                  </div>
 
-                    {/* Where do I find this? */}
+                  {/* Where do I find this? — shown when guide text exists */}
+                  {guide && (
                     <details className="group">
                       <summary className="text-xs text-emerald cursor-pointer hover:text-emerald-dark transition font-semibold select-none">
                         📍 Where do I find this?
                       </summary>
                       <div className="mt-2 space-y-2">
                         <p className="text-xs text-text-secondary leading-relaxed">{guide.howToFind}</p>
-                        {/* Screenshot placeholder — pass guide.screenshot path to show real image */}
                         {guide.screenshot ? (
                           <a href={guide.screenshot} target="_blank" rel="noopener noreferrer"
                             className="block w-full max-w-[300px] mx-auto cursor-zoom-in">
@@ -220,21 +219,11 @@ export default function Dashboard() {
                         )}
                       </div>
                     </details>
-                  </div>
-                )}
-
-                {/* No guide fallback (shouldn't happen, but safe) */}
-                {!guide && (
-                  <div>
-                    <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
-                    <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
-                      className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
-                      placeholder="@username, $cashtag, email, or address" />
-                  </div>
-                )}
+                  )}
+                </div>
 
                 <button type="submit" className="btn-primary px-5 py-2.5 rounded-lg font-semibold text-white text-sm w-full">
-                  Add {guideCfg?.label || 'Method'}
+                  Add {guideCfg.label}
                 </button>
               </form>
             );
