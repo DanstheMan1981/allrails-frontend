@@ -51,7 +51,10 @@ export default function Settings() {
     <div className="min-h-screen bg-navy">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-navy-border max-w-3xl mx-auto">
-        <Link to="/" className="text-xl font-bold gradient-text">AllRails</Link>
+        <Link to="/" className="flex items-center gap-2">
+          <img src="/allrails-logo.png" alt="AllRails" className="h-8" />
+          <span className="text-xl font-bold gradient-text">AllRails</span>
+        </Link>
         <div className="flex items-center gap-3">
           <Link to="/dashboard" className="text-sm text-text-secondary hover:text-white transition">Dashboard</Link>
           <button onClick={logout} className="text-sm text-text-dim hover:text-red-400 transition">Logout</button>

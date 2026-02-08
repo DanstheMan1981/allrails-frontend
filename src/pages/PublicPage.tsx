@@ -129,8 +129,9 @@ export default function PublicPage() {
 
       {/* AllRails branding */}
       <footer className="text-center py-6 px-4">
-        <Link to="/" className="text-text-dim text-xs hover:text-text-secondary transition">
-          Powered by <span className="gradient-text font-semibold">AllRails</span>
+        <Link to="/" className="inline-flex items-center gap-1.5 text-text-dim hover:text-text-secondary transition">
+          <span className="text-xs">Powered by</span>
+          <img src="/allrails-logo.png" alt="AllRails" className="h-6" />
         </Link>
       </footer>
     </div>

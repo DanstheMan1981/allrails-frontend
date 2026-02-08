@@ -11,7 +11,10 @@ export default function Landing() {
     <div className="min-h-screen bg-navy">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
-        <div className="text-xl font-bold gradient-text">AllRails</div>
+        <div className="flex items-center gap-2">
+          <img src="/allrails-logo.png" alt="AllRails" className="h-8" />
+          <span className="text-xl font-bold gradient-text">AllRails</span>
+        </div>
         <div className="flex gap-3">
           <Link to="/login" className="px-4 py-2 text-sm text-text-secondary hover:text-white transition">Log In</Link>
           <Link to="/register" className="btn-primary px-4 py-2 text-sm font-semibold text-white rounded-lg">Get Started</Link>
@@ -21,6 +24,7 @@ export default function Landing() {
       {/* Hero */}
       <section className="hero-gradient pt-20 pb-28 px-6">
         <div className="max-w-3xl mx-auto text-center">
+          <img src="/allrails-logo.png" alt="AllRails" className="h-[120px] mx-auto mb-6" />
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
             One Link.<br /><span className="gradient-text">Every Payment.</span>
           </h1>
