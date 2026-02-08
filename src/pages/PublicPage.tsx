@@ -8,6 +8,13 @@ export default function PublicPage() {
   const [page, setPage] = useState<PublicPageData | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopy = useCallback(async (id: string, text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  }, []);
 
   useEffect(() => {
     if (!username) return;
@@ -40,8 +47,6 @@ export default function PublicPage() {
     );
   }
 
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-
   const handlePayment = (type: string, handle: string) => {
     const cfg = getPaymentConfig(type);
     const link = cfg.deepLink(handle);
@@ -49,12 +54,6 @@ export default function PublicPage() {
       window.location.href = link;
     }
   };
-
-  const handleCopy = useCallback(async (id: string, text: string) => {
-    await navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
-  }, []);
 
   return (
     <div className="min-h-screen bg-navy hero-gradient flex flex-col">
