@@ -1,6 +1,68 @@
 @import "tailwindcss";
 
+@theme {
+  --color-navy: #0a1628;
+  --color-navy-light: #111d33;
+  --color-navy-card: #152238;
+  --color-navy-border: #1e3050;
+  --color-emerald: #00c853;
+  --color-emerald-dark: #00a844;
+  --color-text-primary: #e8ecf1;
+  --color-text-secondary: #8899aa;
+  --color-text-dim: #4a5a6a;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: #0a1628;
+  color: #e8ecf1;
   margin: 0;
+}
+
+/* Glass card */
+.glass {
+  background: rgba(21, 34, 56, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 48, 80, 0.6);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e3050; border-radius: 2px; }
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #00c853, #00e676, #69f0ae);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero gradient bg */
+.hero-gradient {
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,200,83,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 50%, rgba(0,200,83,0.04) 0%, transparent 50%);
+}
+
+/* Smooth button hover */
+.btn-primary {
+  background: linear-gradient(135deg, #00c853, #00a844);
+  transition: all 0.2s ease;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 20px rgba(0,200,83,0.3);
+  transform: translateY(-1px);
+}
+
+/* Payment method button animations */
+.pay-btn {
+  transition: all 0.2s ease;
+}
+.pay-btn:active {
+  transform: scale(0.97);
 }
