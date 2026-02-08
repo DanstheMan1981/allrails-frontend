@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { profile as profileApi, paymentMethods as pmApi, type Profile, type PaymentMethod } from '../lib/api';
 import { useAuth } from '../lib/auth';
-import { getPaymentConfig, PAYMENT_TYPE_OPTIONS } from '../lib/payment-types';
+import { getPaymentConfig, PAYMENT_TYPE_OPTIONS, PAYMENT_TYPES } from '../lib/payment-types';
 
 export default function Dashboard() {
   const { logout } = useAuth();
@@ -145,33 +145,94 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Add form */}
-          {showAdd && (
-            <form onSubmit={handleAdd} className="bg-navy/50 rounded-xl p-4 mb-4 space-y-3 border border-navy-border">
-              <div className="grid grid-cols-2 gap-3">
+          {/* Guided add form */}
+          {showAdd && (() => {
+            const guideCfg = PAYMENT_TYPES[addType];
+            const guide = guideCfg?.setup;
+            return (
+              <form onSubmit={handleAdd} className="bg-navy/50 rounded-xl p-4 mb-4 space-y-4 border border-navy-border">
+                {/* Step 1: Choose type */}
                 <div>
-                  <label className="text-xs text-text-secondary mb-1 block">Type</label>
-                  <select value={addType} onChange={e => setAddType(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm focus:border-emerald focus:outline-none">
-                    {PAYMENT_TYPE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.icon} {o.label}</option>)}
-                  </select>
+                  <label className="text-xs text-text-secondary mb-1.5 block font-semibold uppercase tracking-wide">Payment Type</label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {PAYMENT_TYPE_OPTIONS.map(o => {
+                      const c = getPaymentConfig(o.value);
+                      const selected = addType === o.value;
+                      return (
+                        <button key={o.value} type="button" onClick={() => setAddType(o.value)}
+                          className={`flex flex-col items-center gap-1 p-2.5 rounded-lg border transition text-xs font-medium ${selected ? 'border-emerald bg-emerald/10 text-white' : 'border-navy-border bg-navy/30 text-text-secondary hover:border-text-dim'}`}>
+                          <span className="text-lg" style={selected ? { filter: 'drop-shadow(0 0 4px ' + c.color + ')' } : {}}>{c.icon}</span>
+                          <span className="truncate w-full text-center">{c.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div>
-                  <label className="text-xs text-text-secondary mb-1 block">Label (optional)</label>
-                  <input value={addLabel} onChange={e => setAddLabel(e.target.value)}
-                    className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
-                    placeholder="My Venmo" />
-                </div>
-              </div>
-              <div>
-                <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
-                <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
-                  className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
-                  placeholder="@username, $cashtag, email, or address" />
-              </div>
-              <button type="submit" className="btn-primary px-5 py-2 rounded-lg font-semibold text-white text-sm">Add</button>
-            </form>
-          )}
+
+                {/* Step 2: Guided setup */}
+                {guide && (
+                  <div className="rounded-lg border border-navy-border bg-navy/30 p-4 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{guideCfg.icon}</span>
+                      <span className="font-semibold text-sm">{guideCfg.label} Setup</span>
+                    </div>
+
+                    <p className="text-sm text-text-secondary">{guide.helpText}</p>
+
+                    <div>
+                      <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
+                      <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
+                        className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
+                        placeholder={guide.placeholder} />
+                    </div>
+
+                    <div>
+                      <label className="text-xs text-text-secondary mb-1 block">Label (optional)</label>
+                      <input value={addLabel} onChange={e => setAddLabel(e.target.value)}
+                        className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
+                        placeholder={`My ${guideCfg.label}`} />
+                    </div>
+
+                    {/* Where do I find this? */}
+                    <details className="group">
+                      <summary className="text-xs text-emerald cursor-pointer hover:text-emerald-dark transition font-semibold select-none">
+                        📍 Where do I find this?
+                      </summary>
+                      <div className="mt-2 space-y-2">
+                        <p className="text-xs text-text-secondary leading-relaxed">{guide.howToFind}</p>
+                        {/* Screenshot placeholder — pass guide.screenshot path to show real image */}
+                        <div className="rounded-lg border-2 border-dashed border-navy-border bg-navy/50 flex items-center justify-center h-40 overflow-hidden">
+                          {guide.screenshot ? (
+                            <img src={guide.screenshot} alt={`How to find your ${guideCfg.label} handle`}
+                              className="w-full h-full object-contain" />
+                          ) : (
+                            <div className="text-center text-text-dim">
+                              <div className="text-2xl mb-1">📸</div>
+                              <div className="text-[10px]">Screenshot coming soon</div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                )}
+
+                {/* No guide fallback (shouldn't happen, but safe) */}
+                {!guide && (
+                  <div>
+                    <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
+                    <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
+                      className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
+                      placeholder="@username, $cashtag, email, or address" />
+                  </div>
+                )}
+
+                <button type="submit" className="btn-primary px-5 py-2.5 rounded-lg font-semibold text-white text-sm w-full">
+                  Add {guideCfg?.label || 'Method'}
+                </button>
+              </form>
+            );
+          })()}
 
           {/* Method list */}
           {methods.length === 0 && !showAdd && (
