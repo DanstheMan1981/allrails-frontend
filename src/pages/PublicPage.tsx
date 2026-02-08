@@ -131,7 +131,7 @@ export default function PublicPage() {
       <footer className="text-center py-6 px-4">
         <Link to="/" className="inline-flex items-center gap-1.5 text-text-dim hover:text-text-secondary transition">
           <span className="text-xs">Powered by</span>
-          <img src="/allrails-logo.png" alt="AllRails" className="h-12" />
+          <img src="/allrails-logo.png" alt="AllRails" className="h-20" />
         </Link>
       </footer>
     </div>
