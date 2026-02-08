@@ -10,7 +10,7 @@ export const PAYMENT_TYPES: Record<string, PaymentTypeConfig> = {
     label: 'Venmo',
     color: '#3D95CE',
     icon: '💙',
-    deepLink: (h) => `venmo://paycharge?recipients=${h.replace('@', '')}`,
+    deepLink: (h) => `https://venmo.com/u/${h.replace('@', '')}`,
   },
   cashapp: {
     label: 'Cash App',
