@@ -139,7 +139,10 @@ export default function Dashboard() {
         <div className="glass rounded-2xl p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-lg">Payment Methods</h2>
-            <button onClick={() => setShowAdd(!showAdd)}
+            <button onClick={() => {
+                if (!showAdd) { setAddType('venmo'); setAddHandle(''); setAddLabel(''); }
+                setShowAdd(!showAdd);
+              }}
               className="text-sm text-emerald hover:text-emerald-dark font-semibold transition">
               {showAdd ? 'Cancel' : '+ Add Method'}
             </button>
