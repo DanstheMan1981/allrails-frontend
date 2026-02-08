@@ -23,6 +23,7 @@ export const PAYMENT_TYPES: Record<string, PaymentTypeConfig> = {
       helpText: 'Enter your Venmo username (without the @)',
       placeholder: 'Daniel-Dieringer-3',
       howToFind: 'Open the Venmo app → tap your profile icon (top left) → your username is shown below your name. It may contain hyphens and numbers.',
+      screenshot: '/guides/venmo-guide.png',
     },
   },
   cashapp: {
@@ -34,6 +35,7 @@ export const PAYMENT_TYPES: Record<string, PaymentTypeConfig> = {
       helpText: 'Enter your $cashtag (without the $)',
       placeholder: 'danield',
       howToFind: 'Open Cash App → tap your profile icon (top right) → your $cashtag is displayed at the top of the profile screen.',
+      screenshot: '/guides/cashapp-guide.png',
     },
   },
   paypal: {
@@ -45,6 +47,7 @@ export const PAYMENT_TYPES: Record<string, PaymentTypeConfig> = {
       helpText: 'Enter your PayPal.me username',
       placeholder: 'DanielDieringer673',
       howToFind: 'Go to paypal.me → log in → your PayPal.me link is shown on your profile. The username is the part after paypal.me/.',
+      screenshot: '/guides/paypal-guide.png',
     },
   },
   zelle: {
