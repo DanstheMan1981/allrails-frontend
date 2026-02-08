@@ -52,7 +52,7 @@ export default function Settings() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-navy-border max-w-3xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/allrails-logo.png" alt="AllRails" className="h-8" />
+          <img src="/allrails-logo.png" alt="AllRails" className="h-12" />
           <span className="text-xl font-bold gradient-text">AllRails</span>
         </Link>
         <div className="flex items-center gap-3">

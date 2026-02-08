@@ -31,7 +31,7 @@ export default function Login() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">
-            <img src="/allrails-logo.png" alt="AllRails" className="h-20 mx-auto" />
+            <img src="/allrails-logo.png" alt="AllRails" className="h-[120px] mx-auto" />
           </Link>
           <h1 className="text-2xl font-bold mt-6 mb-2">Welcome back</h1>
           <p className="text-text-secondary text-sm">Log in to manage your payment link</p>
