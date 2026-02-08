@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { publicPage, type PublicPage as PublicPageData } from '../lib/api';
 import { getPaymentConfig } from '../lib/payment-types';
@@ -40,6 +40,8 @@ export default function PublicPage() {
     );
   }
 
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
   const handlePayment = (type: string, handle: string) => {
     const cfg = getPaymentConfig(type);
     const link = cfg.deepLink(handle);
@@ -47,6 +49,12 @@ export default function PublicPage() {
       window.location.href = link;
     }
   };
+
+  const handleCopy = useCallback(async (id: string, text: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  }, []);
 
   return (
     <div className="min-h-screen bg-navy hero-gradient flex flex-col">
@@ -70,7 +78,30 @@ export default function PublicPage() {
           <div className="space-y-3">
             {page.paymentMethods.map(m => {
               const cfg = getPaymentConfig(m.type);
-              const isZelle = m.type === 'zelle';
+              const isDisplayOnly = !cfg.deepLink(m.handle);
+
+              if (isDisplayOnly) {
+                return (
+                  <div key={m.id}
+                    className="w-full py-4 px-5 rounded-2xl text-white relative overflow-hidden"
+                    style={{ background: cfg.color }}>
+                    <div className="flex items-center justify-center gap-2 font-bold">
+                      <span className="text-lg">{cfg.icon}</span>
+                      <span>{m.label || cfg.label}</span>
+                    </div>
+                    <div className="mt-2 flex items-center justify-center gap-2">
+                      <span className="font-mono text-sm bg-black/20 px-3 py-1.5 rounded-lg">{m.handle}</span>
+                      <button onClick={() => handleCopy(m.id, m.handle)}
+                        className="bg-white/20 hover:bg-white/30 transition px-3 py-1.5 rounded-lg text-xs font-semibold">
+                        {copiedId === m.id ? '✓ Copied!' : '📋 Copy'}
+                      </button>
+                    </div>
+                    <div className="text-center text-[11px] opacity-70 mt-1.5">
+                      Open your banking app and send to this number/email via Zelle
+                    </div>
+                  </div>
+                );
+              }
 
               return (
                 <button
@@ -84,9 +115,6 @@ export default function PublicPage() {
                     <span className="text-lg">{cfg.icon}</span>
                     <span>{m.label || cfg.label}</span>
                   </div>
-                  {isZelle && (
-                    <div className="relative text-xs opacity-80 mt-0.5">{m.handle}</div>
-                  )}
                 </button>
               );
             })}

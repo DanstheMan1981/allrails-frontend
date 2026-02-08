@@ -4,6 +4,16 @@ import { profile as profileApi, paymentMethods as pmApi, type Profile, type Paym
 import { useAuth } from '../lib/auth';
 import { getPaymentConfig, PAYMENT_TYPE_OPTIONS, PAYMENT_TYPES } from '../lib/payment-types';
 
+/** Auto-format phone numbers with dashes (123-456-7890). Passes emails through unchanged. */
+function formatZelleHandle(value: string): string {
+  if (value.includes('@')) return value;
+  const digits = value.replace(/\D/g, '');
+  if (digits.length === 0) return value;
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+}
+
 export default function Dashboard() {
   const { logout } = useAuth();
   const [prof, setProf] = useState<Profile | null>(null);
@@ -183,7 +193,7 @@ export default function Dashboard() {
 
                   <div>
                     <label className="text-xs text-text-secondary mb-1 block">Handle / Address</label>
-                    <input value={addHandle} onChange={e => setAddHandle(e.target.value)} required
+                    <input value={addHandle} onChange={e => setAddHandle(addType === 'zelle' ? formatZelleHandle(e.target.value) : e.target.value)} required
                       className="w-full px-3 py-2.5 bg-navy border border-navy-border rounded-lg text-white text-sm placeholder-text-dim focus:border-emerald focus:outline-none"
                       placeholder={guide?.placeholder || '@username, $cashtag, email, or address'} />
                   </div>
