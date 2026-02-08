@@ -201,17 +201,20 @@ export default function Dashboard() {
                       <div className="mt-2 space-y-2">
                         <p className="text-xs text-text-secondary leading-relaxed">{guide.howToFind}</p>
                         {/* Screenshot placeholder — pass guide.screenshot path to show real image */}
-                        <div className="rounded-lg border-2 border-dashed border-navy-border bg-navy/50 flex items-center justify-center h-40 overflow-hidden">
-                          {guide.screenshot ? (
+                        {guide.screenshot ? (
+                          <a href={guide.screenshot} target="_blank" rel="noopener noreferrer"
+                            className="block w-full max-w-[300px] mx-auto cursor-zoom-in">
                             <img src={guide.screenshot} alt={`How to find your ${guideCfg.label} handle`}
-                              className="w-full h-full object-contain" />
-                          ) : (
+                              className="w-full rounded-lg border border-navy-border hover:border-emerald transition shadow-lg" />
+                          </a>
+                        ) : (
+                          <div className="rounded-lg border-2 border-dashed border-navy-border bg-navy/50 flex items-center justify-center h-40">
                             <div className="text-center text-text-dim">
                               <div className="text-2xl mb-1">📸</div>
                               <div className="text-[10px]">Screenshot coming soon</div>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     </details>
                   </div>
