@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const steps = [
   { num: '01', title: 'Create Your Link', desc: 'Sign up and pick your unique username — allrails.app/you' },
-  { num: '02', title: 'Add Payment Methods', desc: 'Connect Venmo, Cash App, PayPal, Zelle, crypto — whatever you use' },
+  { num: '02', title: 'Add Payment Methods', desc: 'Connect Venmo, Cash App, PayPal, Apple Pay, crypto — whatever you use' },
   { num: '03', title: 'Share & Get Paid', desc: 'One link in your bio, texts, or QR code. Anyone can pay you instantly' },
 ];
 
@@ -48,7 +48,7 @@ export default function Landing() {
             <div className="font-bold text-lg mb-1">@danielpays</div>
             <div className="text-text-dim text-sm mb-5">Send me money 🙌</div>
             <div className="space-y-2.5">
-              {[{ name: 'Venmo', color: '#3D95CE' }, { name: 'Cash App', color: '#00D632' }, { name: 'PayPal', color: '#003087' }, { name: 'Zelle', color: '#6D1ED4' }].map(m => (
+              {[{ name: 'Venmo', color: '#3D95CE' }, { name: 'Cash App', color: '#00D632' }, { name: 'PayPal', color: '#003087' }, { name: 'Apple Pay', color: '#000000' }].map(m => (
                 <div key={m.name} className="py-3 rounded-xl font-semibold text-white text-sm" style={{ background: m.color }}>{m.name}</div>
               ))}
             </div>

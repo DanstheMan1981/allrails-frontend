@@ -96,7 +96,7 @@ export default function PublicPage() {
                       </button>
                     </div>
                     <div className="text-center text-[11px] opacity-70 mt-1.5">
-                      Open your banking app and send to this number/email via Zelle
+                      <a href="sms:+13463343118" className="underline">Tap to send via Apple Pay</a>
                     </div>
                   </div>
                 );
