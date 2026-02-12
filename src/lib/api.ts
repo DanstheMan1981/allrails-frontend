@@ -14,7 +14,8 @@ async function request<T>(path: string, opts: RequestInit = {}): Promise<T> {
     const err = await res.json().catch(() => ({ message: res.statusText }));
     throw new Error(err.message || JSON.stringify(err));
   }
-  return res.json();
+  const text = await res.text();
+  return text ? JSON.parse(text) : ({} as T);
 }
 
 // Auth
@@ -32,7 +33,7 @@ export interface Profile {
 }
 
 export const profile = {
-  get: () => request<Profile | null>('/profile'),
+  get: () => request<Profile | Record<string, never>>('/profile'),
   upsert: (data: { username: string; displayName?: string; avatar?: string; bio?: string }) =>
     request<Profile>('/profile', { method: 'PUT', body: JSON.stringify(data) }),
 };

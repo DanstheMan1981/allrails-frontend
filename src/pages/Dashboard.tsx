@@ -32,9 +32,11 @@ export default function Dashboard() {
   const fetchData = useCallback(async () => {
     try {
       const [p, m] = await Promise.all([profileApi.get(), pmApi.list()]);
-      setProf(p);
+      setProf(p && 'id' in p ? p as Profile : null);
       setMethods(m);
-    } catch {} finally { setLoading(false); }
+    } catch (err) {
+      console.error('fetchData error:', err);
+    } finally { setLoading(false); }
   }, []);
 
   useEffect(() => { fetchData(); }, [fetchData]);
@@ -54,9 +56,13 @@ export default function Dashboard() {
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!addHandle.trim()) return;
-    await pmApi.create({ type: addType, handle: addHandle.trim(), label: addLabel.trim() || undefined });
-    setAddHandle(''); setAddLabel(''); setShowAdd(false);
-    fetchData();
+    try {
+      await pmApi.create({ type: addType, handle: addHandle.trim(), label: addLabel.trim() || undefined });
+      setAddHandle(''); setAddLabel(''); setShowAdd(false);
+      fetchData();
+    } catch (err) {
+      console.error('handleAdd error:', err);
+    }
   };
 
   const handleToggle = async (m: PaymentMethod) => {
