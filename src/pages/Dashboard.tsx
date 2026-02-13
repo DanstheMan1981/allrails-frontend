@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { profile as profileApi, paymentMethods as pmApi, type Profile, type PaymentMethod } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { getPaymentConfig, PAYMENT_TYPE_OPTIONS, PAYMENT_TYPES } from '../lib/payment-types';
+import { useToast } from '../components/Toast';
 
 /** Auto-format phone numbers with dashes (123-456-7890). Passes emails through unchanged. */
 function formatZelleHandle(value: string): string {
@@ -16,6 +17,7 @@ function formatZelleHandle(value: string): string {
 
 export default function Dashboard() {
   const { logout } = useAuth();
+  const { showToast, ToastContainer } = useToast();
   const [prof, setProf] = useState<Profile | null>(null);
   const [methods, setMethods] = useState<PaymentMethod[]>([]);
   const [showAdd, setShowAdd] = useState(false);
@@ -34,10 +36,10 @@ export default function Dashboard() {
       const [p, m] = await Promise.all([profileApi.get(), pmApi.list()]);
       setProf(p && 'id' in p ? p as Profile : null);
       setMethods(m);
-    } catch (err) {
-      console.error('fetchData error:', err);
+    } catch (err: any) {
+      showToast(err.message || 'Failed to load data', 'error');
     } finally { setLoading(false); }
-  }, []);
+  }, [showToast]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
@@ -59,36 +61,54 @@ export default function Dashboard() {
     try {
       await pmApi.create({ type: addType, handle: addHandle.trim(), label: addLabel.trim() || undefined });
       setAddHandle(''); setAddLabel(''); setShowAdd(false);
+      showToast('Payment method added!', 'success');
       fetchData();
-    } catch (err) {
-      console.error('handleAdd error:', err);
+    } catch (err: any) {
+      showToast(err.message || 'Failed to add payment method', 'error');
     }
   };
 
   const handleToggle = async (m: PaymentMethod) => {
-    await pmApi.update(m.id, { active: !m.active });
-    fetchData();
+    try {
+      await pmApi.update(m.id, { active: !m.active });
+      fetchData();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to update payment method', 'error');
+    }
   };
 
   const handleDelete = async (id: string) => {
-    await pmApi.delete(id);
-    fetchData();
+    try {
+      await pmApi.delete(id);
+      showToast('Payment method deleted', 'success');
+      fetchData();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to delete payment method', 'error');
+    }
   };
 
   const handleMoveUp = async (idx: number) => {
     if (idx === 0) return;
     const newOrder = [...methods];
     [newOrder[idx - 1], newOrder[idx]] = [newOrder[idx], newOrder[idx - 1]];
-    await pmApi.reorder(newOrder.map((m, i) => ({ id: m.id, sortOrder: i })));
-    fetchData();
+    try {
+      await pmApi.reorder(newOrder.map((m, i) => ({ id: m.id, sortOrder: i })));
+      fetchData();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to reorder', 'error');
+    }
   };
 
   const handleMoveDown = async (idx: number) => {
     if (idx === methods.length - 1) return;
     const newOrder = [...methods];
     [newOrder[idx], newOrder[idx + 1]] = [newOrder[idx + 1], newOrder[idx]];
-    await pmApi.reorder(newOrder.map((m, i) => ({ id: m.id, sortOrder: i })));
-    fetchData();
+    try {
+      await pmApi.reorder(newOrder.map((m, i) => ({ id: m.id, sortOrder: i })));
+      fetchData();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to reorder', 'error');
+    }
   };
 
   const startEdit = (m: PaymentMethod) => {
@@ -102,15 +122,21 @@ export default function Dashboard() {
 
   const saveEdit = async (id: string) => {
     if (!editHandle.trim()) return;
-    await pmApi.update(id, { type: editType, label: editLabel.trim() || null, handle: editHandle.trim() });
-    setEditingId(null);
-    fetchData();
+    try {
+      await pmApi.update(id, { type: editType, label: editLabel.trim() || null, handle: editHandle.trim() });
+      setEditingId(null);
+      showToast('Payment method updated!', 'success');
+      fetchData();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to save changes', 'error');
+    }
   };
 
   if (loading) return <div className="min-h-screen bg-navy flex items-center justify-center text-text-secondary">Loading...</div>;
 
   return (
     <div className="min-h-screen bg-navy">
+      <ToastContainer />
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-navy-border max-w-3xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
