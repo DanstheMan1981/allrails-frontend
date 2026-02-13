@@ -53,6 +53,12 @@ export default function Login() {
               placeholder="Your password" />
           </div>
 
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-sm text-emerald hover:underline">
+              Forgot password?
+            </Link>
+          </div>
+
           <button type="submit" disabled={loading}
             className="w-full btn-primary py-3 rounded-lg font-bold text-white disabled:opacity-50">
             {loading ? 'Logging in...' : 'Log In'}
