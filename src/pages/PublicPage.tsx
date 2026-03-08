@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { publicPage, type PublicPage as PublicPageData } from '../lib/api';
 import { getPaymentConfig } from '../lib/payment-types';
 
@@ -27,6 +28,11 @@ export default function PublicPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-navy flex items-center justify-center">
+        <SEO
+          title="Payment Page — AllRails"
+          description="Pay with Venmo, Cash App, PayPal, or Apple Pay through AllRails."
+          keywords="payment page, Venmo payment link, Cash App payment link, PayPal payment link, Apple Pay link"
+        />
         <div className="animate-pulse text-text-dim">Loading...</div>
       </div>
     );
@@ -35,6 +41,11 @@ export default function PublicPage() {
   if (notFound || !page) {
     return (
       <div className="min-h-screen bg-navy flex items-center justify-center px-4">
+        <SEO
+          title="Payment Page — AllRails"
+          description="Pay with Venmo, Cash App, PayPal, or Apple Pay through AllRails."
+          keywords="payment page, Venmo payment link, Cash App payment link, PayPal payment link, Apple Pay link"
+        />
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
           <h1 className="text-2xl font-bold mb-2">Page not found</h1>
@@ -57,6 +68,12 @@ export default function PublicPage() {
 
   return (
     <div className="min-h-screen bg-navy hero-gradient flex flex-col">
+      <SEO
+        title={page.username ? `${page.username}'s Payment Page — AllRails` : 'Payment Page — AllRails'}
+        description="Pay with Venmo, Cash App, PayPal, or Apple Pay through AllRails."
+        keywords="payment page, Venmo payment link, Cash App payment link, PayPal payment link, Apple Pay link"
+        canonicalPath={page.username ? `/p/${page.username}` : undefined}
+      />
       <div className="flex-1 flex items-start justify-center pt-12 sm:pt-20 px-4 pb-8">
         <div className="w-full max-w-sm">
           {/* Avatar + Info */}

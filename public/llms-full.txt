@@ -1,0 +1,123 @@
+# AllRails Full Site Guide
+
+> AllRails is a universal payment link platform that gives users one link for every payment method. Creators, freelancers, and businesses can share a single AllRails URL and let payers choose Venmo, Cash App, PayPal, or Apple Pay. AllRails is free forever, has no setup fees, and is built by The Bot Collective.
+
+## Homepage
+
+### Brand
+
+AllRails
+
+### Hero
+
+One Link.
+
+Every Payment.
+
+Connecting Payments, Seamlessly. Share a single link and let anyone pay you with their preferred method.
+
+Primary actions:
+
+- Create Your Link — Free
+- How It Works
+
+### Example Payment Page Preview
+
+- @danielpays
+- Send me money
+- Venmo
+- Cash App
+- PayPal
+- Apple Pay
+- Powered by AllRails
+
+### How It Works
+
+#### Step 1
+
+Create Your Link
+
+Sign up and pick your unique username — `allrails.app/you`
+
+#### Step 2
+
+Add Payment Methods
+
+Connect Venmo, Cash App, PayPal, Apple Pay, crypto — whatever you use
+
+#### Step 3
+
+Share & Get Paid
+
+One link in your bio, texts, or QR code. Anyone can pay you instantly
+
+### Call To Action
+
+Ready to simplify payments?
+
+Free forever. Set up in 30 seconds.
+
+Action:
+
+- Get Your Link
+
+### Footer
+
+AllRails. All rights reserved.
+
+## Register Page
+
+### Heading
+
+Create your account
+
+Get your payment link in 30 seconds
+
+### Form Fields
+
+- Name
+- Email
+- Password
+
+### Actions
+
+- Create Account
+- Log in
+
+## Public Payment Page
+
+### Dynamic Content
+
+Each public page uses the route `https://allrails.app/p/{username}` and can include:
+
+- Display name or username
+- `@username`
+- Bio
+- Payment method buttons
+
+Supported payment method labels surfaced in the product:
+
+- Venmo
+- Cash App
+- PayPal
+- Apple Pay
+
+For some methods the page can show:
+
+- Handle or address
+- Copy button
+- Powered by AllRails
+
+### Empty State
+
+No payment methods set up yet.
+
+### Not Found State
+
+Page not found
+
+This AllRails link does not exist yet.
+
+Action:
+
+- Claim this username

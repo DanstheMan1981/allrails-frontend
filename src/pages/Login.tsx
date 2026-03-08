@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { auth } from '../lib/api';
 import { useAuth } from '../lib/auth';
 
@@ -28,6 +29,13 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-navy flex items-center justify-center px-4">
+      <SEO
+        title="Login — AllRails"
+        description="Sign in to your AllRails account to manage your universal payment link."
+        keywords="AllRails login, account access, manage payment link"
+        canonicalPath="/login"
+        noIndex
+      />
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">

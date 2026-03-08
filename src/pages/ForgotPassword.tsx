@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { auth } from '../lib/api';
 
 export default function ForgotPassword() {
@@ -24,6 +25,13 @@ export default function ForgotPassword() {
 
   return (
     <div className="min-h-screen bg-navy flex items-center justify-center px-4">
+      <SEO
+        title="Forgot Password — AllRails"
+        description="Reset your AllRails account password."
+        keywords="AllRails password reset, forgot password, account recovery"
+        canonicalPath="/forgot-password"
+        noIndex
+      />
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">

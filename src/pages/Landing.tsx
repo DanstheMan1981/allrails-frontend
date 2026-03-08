@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const steps = [
   { num: '01', title: 'Create Your Link', desc: 'Sign up and pick your unique username — allrails.app/you' },
@@ -7,8 +8,62 @@ const steps = [
 ];
 
 export default function Landing() {
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How much does AllRails cost?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'AllRails is free forever. There are no setup fees and no monthly charges.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What payment methods does AllRails support?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'AllRails supports Venmo, Cash App, PayPal, and Apple Pay.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I set up AllRails?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Create an account, connect your payment methods, and share your link. Setup takes about 30 seconds.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Is my payment information secure?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. AllRails connects to your existing payment accounts and never handles your money directly.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can I use AllRails for business payments?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. Anyone with a supported payment method can pay you through your AllRails link.',
+        },
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-navy">
+      <SEO
+        title="AllRails — One Link. Every Payment."
+        description="Share one link and let anyone pay you with Venmo, Cash App, PayPal, or Apple Pay. Free forever. Set up in 30 seconds."
+        keywords="payment link, universal payment, Venmo link, Cash App link, PayPal link, Apple Pay, digital wallet, one link payments, free payment page"
+        canonicalPath="/"
+        jsonLd={faqJsonLd}
+      />
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto">
         <div className="flex items-center gap-2">

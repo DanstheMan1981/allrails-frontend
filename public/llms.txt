@@ -1,0 +1,29 @@
+# AllRails
+
+> AllRails is a universal payment link platform. Users create one link that lets anyone pay them through Venmo, Cash App, PayPal, or Apple Pay. AllRails is free forever with no setup fees. Created by The Bot Collective (Enough is Enough LLC).
+
+## Key Pages
+
+- [Homepage](https://allrails.app/): Landing page with product overview and signup
+- [Register](https://allrails.app/register): Create a free AllRails account
+
+## How It Works
+
+1. Create your free AllRails account
+2. Connect your payment methods (Venmo, Cash App, PayPal, Apple Pay)
+3. Share your unique link — anyone can pay you with their preferred method
+
+## Pricing
+
+- AllRails is free forever
+- No setup fees
+- No monthly charges
+- Set up in 30 seconds
+
+## FAQs
+
+- How much does AllRails cost? Free forever. No fees, no charges.
+- What payment methods are supported? Venmo, Cash App, PayPal, and Apple Pay.
+- How do I get started? Create an account, connect your payment methods, and share your link.
+- Is my payment information secure? Yes. AllRails connects to your existing payment accounts — we never handle your money directly.
+- Can anyone pay me through my link? Yes. Anyone with one of the supported payment methods can pay you through your AllRails link.

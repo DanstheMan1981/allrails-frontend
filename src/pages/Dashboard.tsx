@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { profile as profileApi, paymentMethods as pmApi, type Profile, type PaymentMethod } from '../lib/api';
 import { useAuth } from '../lib/auth';
 import { getPaymentConfig, PAYMENT_TYPE_OPTIONS, PAYMENT_TYPES } from '../lib/payment-types';
@@ -132,10 +133,30 @@ export default function Dashboard() {
     }
   };
 
-  if (loading) return <div className="min-h-screen bg-navy flex items-center justify-center text-text-secondary">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-navy flex items-center justify-center text-text-secondary">
+        <SEO
+          title="Dashboard — AllRails"
+          description="Manage your AllRails payment links and view activity."
+          keywords="AllRails dashboard, manage payment links, payment activity"
+          canonicalPath="/dashboard"
+          noIndex
+        />
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-navy">
+      <SEO
+        title="Dashboard — AllRails"
+        description="Manage your AllRails payment links and view activity."
+        keywords="AllRails dashboard, manage payment links, payment activity"
+        canonicalPath="/dashboard"
+        noIndex
+      />
       <ToastContainer />
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-navy-border max-w-3xl mx-auto">

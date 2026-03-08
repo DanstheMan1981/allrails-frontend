@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import { profile as profileApi, type Profile } from '../lib/api';
 import { useAuth } from '../lib/auth';
 
@@ -45,10 +46,30 @@ export default function Settings() {
     }
   };
 
-  if (fetching) return <div className="min-h-screen bg-navy flex items-center justify-center text-text-secondary">Loading...</div>;
+  if (fetching) {
+    return (
+      <div className="min-h-screen bg-navy flex items-center justify-center text-text-secondary">
+        <SEO
+          title="Settings — AllRails"
+          description="Manage your AllRails account settings and payment methods."
+          keywords="AllRails settings, payment methods, account settings"
+          canonicalPath="/settings"
+          noIndex
+        />
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-navy">
+      <SEO
+        title="Settings — AllRails"
+        description="Manage your AllRails account settings and payment methods."
+        keywords="AllRails settings, payment methods, account settings"
+        canonicalPath="/settings"
+        noIndex
+      />
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-navy-border max-w-3xl mx-auto">
         <Link to="/" className="flex items-center gap-2">
